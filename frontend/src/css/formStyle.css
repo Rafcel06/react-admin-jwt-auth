@@ -1,0 +1,232 @@
+
+/* Input container  */
+
+.input-flex-contain {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height:auto;
+  gap: 0.8em;
+}
+
+
+.input-contain-margin-bottom{
+  margin-bottom: 2em;
+}
+
+.input-contain {
+     width: 100%;
+     gap: 0.3em;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+    
+}
+
+
+/* Input Text */
+
+.input-text {
+
+  gap: 0.5em;
+  border-radius: 10px;
+  border: none;
+  outline: 0 !important;
+  box-sizing: border-box;
+  padding: 12px 15px;
+  width: 100%;
+  border: 1px solid #c0c0c0;
+}
+
+.input-with-icons {
+  border: none !important;
+}
+
+.input-contain-icons {
+  border-radius: 10px;
+     width: 100%;
+     gap: 0.3em;
+     display: flex;
+     align-items: center !important;
+     justify-content: space-between;
+     border: 1px solid #c0c0c0 !important;
+}
+
+
+
+.MuiSvgIcon-root  {
+  font-size: 20px;
+}
+.input-icons {
+  margin-right: 0.5em;
+} 
+
+.input-icons-left {
+  margin-left: 0.5em;
+} 
+
+
+
+/* Input file style */
+
+/* From Uiverse.io by Yaya12085 */ 
+.custum-file-upload {
+  height: 150px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  gap: 10px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cacaca;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0px 48px 35px -48px rgba(0,0,0,0.1);
+}
+
+.custum-file-upload .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custum-file-upload .icon svg {
+  height: 40px;
+  fill: rgba(75, 85, 99, 1);
+}
+
+.custum-file-upload .text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custum-file-upload .text span {
+  font-weight: 400;
+  color: rgba(75, 85, 99, 1);
+}
+
+.custum-file-upload input {
+  display: none;
+}
+
+.file-logo-contain {
+   display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.file-image-contain {
+  height: 100%;
+  width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ 
+}
+
+.file-image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+
+/* form style */
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+
+.input-label {
+  padding: 0.2em 0.2em;
+}
+
+.form-select {
+      height: 30px;
+    width: 60px;
+    border: none;
+    margin: 0 0.5em;
+    padding: 0 0.5em;
+    border-bottom: 1px solid #000;
+}
+/* 
+.form-select:focus{
+  outline: none;
+  border: none;
+} */
+
+
+.form-title {
+  margin: 1em 0.2em;
+}
+
+.form-btn-contain {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  gap: 0.5em;
+}
+
+
+
+
+.form-btn {
+  font-size: 17px;
+  min-width: 150px !important;
+  position: relative;
+  height: 40px;
+  border-radius: 5px;
+  border: 0 !important;
+  outline: 0 !important;
+  background:#6499E9;
+  color: white;
+  cursor: pointer;  
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-btn:active {
+  box-shadow: none;
+} 
+  
+
+.form-errors {
+    color: #750000;
+    font-size: 14px;
+    padding-left: 0.2em;
+    height: 20px;
+    text-align: left;
+    margin: 0.2em 0;
+}
+
+
+
+
+ @media only screen and (max-width: 390px) {
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    max-height: 450px;
+    overflow: scroll;
+}
+
+.form::-webkit-scrollbar {
+  display: none;
+}
+
+ }
