@@ -11,7 +11,7 @@ import moment from "moment";
 
 const Dashboard = () => {
 
-const { fetchState, setFetchState, getData, postData, updateData, deleteData} = useFetch()
+const { fetchState, setFetchState, getData, postData, updateData, deleteData} = useFetch('users')
 const [users,setUsers] = useState();
 const [month,setMonth] = useState();
 const [day,setDay] = useState();
@@ -64,10 +64,9 @@ const dougData = {
 };
 
  useEffect(() => {
-     getData('client')
+     getData('users')
      .then((response) => {
         setUsers(response)
-     
      })
      .catch((error) => console.log(error))
  },[fetchState])

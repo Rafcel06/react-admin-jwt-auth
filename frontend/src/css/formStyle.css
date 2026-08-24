@@ -5,6 +5,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-direction: column;
   height:auto;
   gap: 0.8em;
 }
@@ -40,6 +41,16 @@
 
 .input-with-icons {
   border: none !important;
+}
+
+.action-input-contain {
+  width: 170px;
+}
+
+.action-input {
+  height: 30px;
+  border-radius: 2px;
+  padding: 5px;
 }
 
 .input-contain-icons {
@@ -142,6 +153,13 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+  max-height: 600px;
+  overflow: scroll;
+}
+
+
+.form::-webkit-scrollbar  {
+  display: none;
 }
 
 
@@ -157,6 +175,30 @@
     padding: 0 0.5em;
     border-bottom: 1px solid #000;
 }
+
+
+.form-select-option {
+    appearance: base-select;
+    display: flex;
+    align-items: center;
+    height: 43px; 
+    border: none;
+    padding: 12px 8px;
+    border: 1px solid #c0c0c0;
+  
+}
+
+.css-1tktgsa-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+        top: 250px;
+    left: 440px;
+    transform-origin: 217px 158.672px;
+    max-height: 300px;
+}
+
+.form-select-option::-webkit-scrollbar {
+   display: none;
+} 
+
 /* 
 .form-select:focus{
   outline: none;
@@ -212,6 +254,24 @@
 }
 
 
+ @media only screen and (max-width: 800px) { 
+
+   .input-flex-contain {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+    gap: 0.8em;
+}
+
+  .action-input-contain {
+    width: 120px;
+}
+
+ }
+
+
 
 
  @media only screen and (max-width: 390px) {
@@ -225,8 +285,13 @@
     overflow: scroll;
 }
 
+
 .form::-webkit-scrollbar {
   display: none;
+}
+
+  .action-input-contain {
+    width: 90px;
 }
 
  }

@@ -57,13 +57,7 @@ const Login = () => {
 
               let decodeData =  setDecode(response?.data)
 
-              if(decodeData.user.isAdmin === 0) {
-                setNotAdmin(true)
-                hideBackDrop()
-                 return
-              }
               setSecureStorage(process.env.REACT_APP_STORAGE_KEY, decodeData)
-              secureLocalStorage.setItem('Admin-level',process.env.REACT_APP_ADMIN_SOCKET)
               hideBackDrop()
               navigate('/home', { replace: true })
               setNotAdmin(false)
@@ -94,12 +88,11 @@ const Login = () => {
 
               <div className="input-contain">
                
-              <input type="email" className="input-text"  placeholder="Email" {...register('email', {
+              <input type="text" className="input-text"  placeholder="Email" {...register('email', {
                 required : {
-                  value : true,
+                   value : true,
                    message : '*Email is required',
                 },
-                pattern : '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'
               })}/>
               </div>
               <p className="form-errors">{errors.email?.message}</p>

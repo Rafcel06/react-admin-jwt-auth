@@ -11,13 +11,15 @@ import MessageAlert from './messageComponents/MessageAlert'
 import useLocalStorage from '../customHooks/useLocalStorage';
 import useSnackBar from '../customHooks/useSnackBar';
 import { useRef } from 'react';
-import { useOutletContext } from 'react-router-dom';
-
+import { data, useOutletContext } from 'react-router-dom';
+import { ACCOUNT_TYPE } from '../constants/constant';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import user from '../images/user-logo.png'
 
 const Analytics = () => {
 
    const  {RenderModal, showModalElement, hideModalElement} = useModal()
-   const { fetchState, setFetchState, getData, postData, updateData, deleteData} = useFetch('users')
+   const { fetchState, setFetchState, getData, getDataNoAuth, postData, updateData, deleteData} = useFetch('users')
    const {getSecureStorage}  = useLocalStorage()
    const [tableData, setTableData] = useState()
    const { handleSubmit, reset,register ,formState} = useForm()
@@ -37,19 +39,24 @@ const Analytics = () => {
    const [offset,setOffset] = useState(0)
    const [limit,setLimit] = useState(5)
    const [ownData,setOwnData] = useState(false)
+   const [allCountry,setAllCountry] = useState([])
+   const [accountType,setAccounType] = useState(ACCOUNT_TYPE)
    const { id } = getSecureStorage(process.env.REACT_APP_STORAGE_KEY).user
+   const [searchName,setSearchName] = useState('')
 
 
     const addUser = () => {
+
        setEditState(false)
        resetFormField()
        setSubmitState({post:true,edit:false,delete:false}) 
        showModalElement()
+       setUserImageExist('')
      
     }
 
     const editUser = (editData) => {
-  
+
 
         showModalElement()
         setEditState(true)
@@ -60,16 +67,29 @@ const Analytics = () => {
            last_name : editData.last_name,
            phone : editData.phone,
            image : editData.image,
-           email : editData.email
+           email : editData.email,
+           username : editData.username,
+           account_type : editData.account_type,
+           country : editData.country
           })
         setUserImageExist(editData.image)
         setSubmitState({post:false,edit:true,delete:false})
       
     }
 
-    // useEffect(() => {
-    //    console.log(userData)
-    // },[userData])
+
+
+    useEffect(() => {
+      
+     getDataNoAuth(process.env.REACT_APP_COUNTRY_URL)
+     .then((response) => {
+        setAllCountry(response.data)
+     })
+     .catch((err) => {
+      console.log(err)
+     })
+
+    },[])
 
     const deleteUser = (data) => {
 
@@ -96,6 +116,9 @@ const Analytics = () => {
         last_name : '',
         phone : '',
         email : '',
+        username : '',
+        country : '',
+        account_type : '',
         image : null
         })
         setFileState(false)
@@ -108,6 +131,8 @@ const Analytics = () => {
 
 
     const submit = (data) => {
+
+
       setExistingEmail(false)
 
       
@@ -116,11 +141,13 @@ const Analytics = () => {
 
           formData.append('first_name', data.first_name)
           formData.append('last_name', data.last_name)
-          formData.append('isAdmin',1)
+          formData.append('account_type', data.account_type)
+          formData.append('username', data.username)
+          formData.append('country', data.country)
           formData.append('email', data.email)
           formData.append('phone', data.phone)
           formData.append('image', (data.image ? data.image[0] : ""))
-          formData.append('password', data.password)
+          // formData.append('password', data.password)
       
 
       if(submitState.post === true && submitState.edit === false && submitState.delete === false) {
@@ -132,12 +159,15 @@ const Analytics = () => {
              if(response.data.message === "Email is not available"){
                  setExistingEmail(true)
                  hideBackDrop()
+                
                  return
              }
             setFetchState(true)
             hideModalElement()
             hideBackDrop()
             resetFormField()
+            setUserImageExist('')
+            
           })
           .catch((err) => {
             setFetchState(true)
@@ -161,9 +191,10 @@ const Analytics = () => {
             hideBackDrop()
             setEditId(null)
             setEditState(false)
+            setUserImageExist('')
             resetFormField()
 
-            if(id === editId ) {
+            if(id === editId) {
                 setOwnData((prevState) => !prevState)
             } 
             
@@ -193,6 +224,7 @@ const Analytics = () => {
              setDeleteId(null)
              hideBackDrop()
              hideModalElement()
+             setUserImageExist('')
              setSubmitState({post:true,edit:false,delete:false}) 
           })
           .catch((err) => {
@@ -217,6 +249,7 @@ const Analytics = () => {
 
 
   const handleCancelSubmit = () => {
+      setUserImageExist('')
       hideModalElement()  
       reset()
       setFileState(false)
@@ -228,12 +261,42 @@ const Analytics = () => {
       setOffset(0)
   }
 
+
+  const handleFilterSearch = (e) => {
+    setSearchName(e.target.value)
+  }
+
+  let timeout;
+
+  useEffect(() => {
+
+    
+
+    if(searchName) {
+       timeout = setTimeout(() => {
+        getData('client?' + 'name=' + searchName)
+        .then((response) => {
+        setTableData(response.data)
+      })
+      .catch((err) => console.log(err))
+   }, 500); 
+    }
+
+
+
+   
+
+    return () => {
+      clearTimeout(timeout)
+    }
+
+  },[searchName])
+
  
   useEffect(() => {
         getData(`users/${id}`)
        .then((response) => {
         setUserData(response.data.data[0])
-        // console.log(response.data.data[0])
        })
        .catch((err) => console.log(err))
      return () => {
@@ -249,26 +312,52 @@ const Analytics = () => {
        })
        .catch((err) => console.log(err))
 
-  },[fetchState,limit,offset])
+  },[fetchState,limit,offset,searchName])
 
 
 
   return (
     <>
     <div className='tab-headers'>
-               <h2>Users</h2>
-               <button className='table-headers-action' onClick={addUser}>Add new</button>
+               <h2>Employee: Records</h2>
+               <button className='table-headers-action' onClick={addUser}><AddBoxIcon/> Add Employee</button>
              </div>
              <div className='table-contain'>
+                      {
+                  !tableData? null :
+
+                  <div className='table-footer'>
+                   <div className='pagination-container'>
+                    <p>Show</p>
+                    <select className="form-select" onChange={handlePagination}>
+                           <option value="5" className="select-value">5</option>
+                           <option value="10" className="select-value">10</option>
+                           <option value="100" className="select-value">100</option>
+                    </select>
+                    <p>Entries</p>
+                   </div>
+
+
+                    <div className='pagination-container'>
+                      <p>Search : </p>
+                      <div className="input-contain action-input-contain">
+                      <input type="text" className="input-text action-input" placeholder='Username ' onChange={(e) => handleFilterSearch(e)}/>
+            
+                </div>
+                   </div>
+                </div>
+
+                }
+
               <table className='table-container'>
                 <thead> 
                 <tr className='table-header'>
-                    <th>id</th>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Country</th>
                     <th>Email</th>
-                    <th>First name</th>
-                    <th>Last name</th>
-                    <th>Middle name</th>
-                    <th>Phone</th>
+                    <th>Account type</th>
                     <th className='table-action'>Action</th>
                 </tr>
 
@@ -279,19 +368,21 @@ const Analytics = () => {
                     {
                        
 
-                      tableData?.data.filter((filter) => filter.isAdmin === 1).map((mapped) => {
+                      tableData?.data.map((mapped) => {
                         return  tableData?.data?.length ? <tr key={mapped?.id}>
-                          <td>{mapped?.id}</td>
-                          <td>{mapped?.email}</td>
-                          <td>{mapped?.first_name}</td>
-                          <td>{mapped?.last_name}</td>
-                          <td>{mapped?.middle_name}</td>
-                          
-                            <td>{mapped?.phone}</td>
-                                <td className="table-action"> 
-                        <button type="button"className="action-btn" onClick={() => editUser(mapped)} ><EditSquareIcon/></button>
-                        <button type="button"className="action-btn" onClick={() => deleteUser(mapped)}><DeleteIcon/></button>
-                    </td>
+                            <td> 
+                              <img src={mapped?.image ? mapped?.image :  user} className='table-image' alt="" />
+                            </td>
+                       
+                          <td>{mapped?.username}</td>
+                          <td>{mapped?.username}</td>
+                          <td>{mapped?.country}</td>
+                          <td>{mapped?.email}</td>  
+                          <td>{mapped?.account_type}</td>
+                          <td className="table-action"> 
+                              <button type="button"className="action-btn" onClick={() => editUser(mapped)} ><EditSquareIcon/></button>
+                              <button type="button"className="action-btn" onClick={() => deleteUser(mapped)}><DeleteIcon/></button>
+                         </td>
                 </tr>
  
                 :  null
@@ -306,19 +397,7 @@ const Analytics = () => {
 
              </table>
 
-                {
-                  !tableData? null : <div className='table-footer'>
-                   <div className='pagination-container'>
-                    <p>Row per page</p>
-                    <select className="form-select" onChange={handlePagination}>
-                           <option value="5" className="select-value">5</option>
-                           <option value="10" className="select-value">10</option>
-                           <option value="100" className="select-value">100</option>
-                    </select>
-                    <p>1 - {limit} of 100</p>
-                   </div>
-                </div>
-                }
+        
                 
        
                 <RenderModal element={ submitState.delete ? <MessageAlert method={{cancel:hideModalElement,confirm: deleteRecordUser, currentDeleteState : currentMatchDelete}}/> :
@@ -328,8 +407,149 @@ const Analytics = () => {
                
               <form className="form"  ref={formUserRef} onSubmit={handleSubmit(submit)}>
 
-                  <div className="input-contain input-contain-margin-bottom">
-                      <label htmlFor="profile" className='input-label'>Profile</label>
+  
+  
+                 <div className="input-contain">
+                  <label htmlFor="country" className='input-label'>Country</label>
+  
+                     <select className="form-select-option" placeholder="country" defaultValue="" {...register('country', {
+                      required : {
+                      value : editState ? false : true,
+                      message : '*Country is required',
+                     }
+                     })}>
+
+                      {
+                          allCountry.map((mapped, __) => {
+                               return  (
+                        
+                                  <option key={__} value={mapped?.name} className="select-value" >{mapped?.name}</option>
+                               )
+                            
+                         })
+                      }
+                        <option value='' className="select-value" defaultValue=''></option>
+  
+                    </select>
+                      <p className="form-errors">{errors.country?.message}</p>
+                </div>
+
+
+                  <div className="input-contain">
+                  <label htmlFor="country" className='input-label'>Account Type</label>
+          
+
+                      <select className="form-select-option" placeholder="country"  {...register('account_type', {
+                      required : {
+                       value : editState ? false : true,
+                       message : '*Account Type is required',
+                     }
+                     })}>
+
+                      {
+                        accountType ? accountType.map((mapped,__) => {
+                           return (
+                             <option value={mapped} key={__} className="select-value" >{mapped}</option>
+                           )
+                        })
+                        
+                        
+                        : null
+                      
+                      }
+                
+              
+             
+                    </select>
+   
+                     <p className="form-errors">{errors.account_type?.message}</p>
+                </div>
+
+                     <div className="input-contain">
+                  <label htmlFor="Username" className='input-label'>Username</label>
+                   <input type="text" className="input-text" placeholder="Username" {...register('username', {
+                      required : {
+                      value : editState ? false : true,
+                      message : '*Username is required',
+                     },
+       
+                     })}/>
+                      <p className="form-errors">{errors.username?.message}</p>
+                </div>
+
+                  <div className="input-flex-contain">
+                      
+          
+
+                      <div className="input-contain">
+                        <label htmlFor="last_name" className='input-label'>Last Name</label>
+                        <input type="text" className="input-text" placeholder="Last name" {...register('last_name', {
+                           required : {
+                           value : editState ? false : true,
+                           message : '*Last name is required',
+                           },
+                         })}/>
+                          <p className="form-errors">{errors.last_name?.message}</p>
+                     </div>
+
+                              <div className="input-contain">
+                         <label htmlFor="first_name" className='input-label'>First Name</label>
+                         <input type="text" className="input-text" placeholder="First name" {...register('first_name', {
+                            required : {
+                            value : editState ? false : true,
+                            message : '*First name is required',
+                            },
+                          })}/>
+                           <p className="form-errors">{errors.first_name?.message}</p>
+                      </div>
+
+                </div>
+
+
+                <div className="input-contain">
+                  <label htmlFor="email" className='input-label'>Email</label>
+                   <input type="email" className="input-text" placeholder="Email" {...register('email', {
+                      required : {
+                      value : editState ? false : true,
+                      message : '*Email is required',
+                     },
+                     pattern : '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'
+                     })}/>
+                    <p className="form-errors">{errors.email?.message}</p>
+                </div>
+
+                  <div className="input-contain">
+                  <label htmlFor="Phone" className='input-label'>Contact number</label>
+                   <input type="number" className="input-text" placeholder="Contact number"  {...register('phone', {
+                      required : {
+                      value : editState ? false : true,
+                      message : '*Contact number is required'
+                     },
+                      //  validate: (value) => {
+                      //       if (!value && editState) return true; 
+                      //       return value.toString().length >= 11 || '*Contact number must be at least 11 digits';
+                      //  }
+                     })}/>
+                      <p className="form-errors">{errors.phone?.message}</p>
+                </div>
+
+           
+            
+                 {/* <div className="input-contain">
+                  <label htmlFor="password" className='input-label'>Password</label>
+                   <input type="password" className="input-text" placeholder="Password" {...register('password', {
+                      required : {
+                      value : editState ? false : true,
+                      message : '*Password is required',
+                     },
+                     
+                     })}/>
+                    {existingEmail ? <p className="form-errors">Email is not available</p> :  <p className="form-errors">{errors.password?.message}</p>}
+                </div> */}
+
+
+                    <div className="input-contain input-contain-margin-bottom">
+                      <label htmlFor="profile" className='input-label'>Photo</label>
                      <label className="custum-file-upload" htmlFor="file">
                       
                        {
@@ -356,66 +576,6 @@ const Analytics = () => {
                       }/>
                     </label>
                     
-                </div>
-         
-                  <div className="input-flex-contain">
-                      
-                       <div className="input-contain">
-                         <label htmlFor="first_name" className='input-label'>First Name</label>
-                         <input type="text" className="input-text" placeholder="First name" {...register('first_name', {
-                            required : {
-                            value : editState ? false : true,
-                            message : '*First name is required',
-                            },
-                          })}/>
-                                 <p className="form-errors">{errors.first_name?.message}</p>
-                      </div>
-
-                      <div className="input-contain">
-                        <label htmlFor="last_name" className='input-label'>Last Name</label>
-                        <input type="text" className="input-text" placeholder="Last name" {...register('last_name', {
-                           required : {
-                           value : editState ? false : true,
-                           message : '*Last name is required',
-                           },
-                         })}/>
-                                <p className="form-errors">{errors.last_name?.message}</p>
-                     </div>
-
-                </div>
-
-                  <div className="input-contain">
-                  <label htmlFor="Phone" className='input-label'>Phone</label>
-                   <input type="number" className="input-text" placeholder="Phone" {...register('phone', {
-                      required : {
-                      value : editState ? false : true
-                     },
-       
-                     })}/>
-                            <p className="form-errors">{errors.phone?.message}</p>
-                </div>
-
-                 <div className="input-contain">
-                  <label htmlFor="email" className='input-label'>Email</label>
-                   <input type="email" className="input-text" placeholder="Email" {...register('email', {
-                      required : {
-                      value : editState ? false : true,
-                      message : '*Email is required',
-                     },
-                     pattern : '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'
-                     })}/>
-                            <p className="form-errors">{errors.email?.message}</p>
-                </div>
-            
-                 <div className="input-contain">
-                  <label htmlFor="password" className='input-label'>Password</label>
-                   <input type="password" className="input-text" placeholder="Password" {...register('password', {
-                      required : {
-                      value : editState ? false : true,
-                      message : '*Password is required',
-                     },
-                     })}/>
-                    {existingEmail ? <p className="form-errors">Email is not available</p> :  <p className="form-errors">{errors.password?.message}</p>}
                 </div>
 
 

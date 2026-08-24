@@ -60,7 +60,17 @@ function Home() {
    }
 
    const checkSession = () => {
-     if(secureLocalStorage.getItem('ExpiredIn') === "true") {
+
+    getData('users')
+    .then((response) => {
+       if(!response) {
+          secureLocalStorage.setItem('ExpiredIn', true)
+       }
+    })
+    .catch((err) => console.log(err))
+
+  
+     if(secureLocalStorage.getItem('ExpiredIn') === true) {
         showAlertElement()
       }
     }
@@ -93,7 +103,7 @@ function Home() {
            <ul className='navigation-list'>
                <Link to={''} className="navigation-links" onClick={checkSession}><AutoAwesomeMosaicIcon className='navigation-icons'/> Dashboard</Link>
   
-               <Link to={'report'} className="navigation-links" onClick={checkSession}><BarChartIcon className='navigation-icons'/> Report</Link>
+               {/* <Link to={'report'} className="navigation-links" onClick={checkSession}><BarChartIcon className='navigation-icons'/> Report</Link> */}
                 <Link to={'users'} className="navigation-links" onClick={checkSession}><GroupIcon className='navigation-icons'/> Users</Link>
            </ul>
             <ul className='navigation-list-logout'>
@@ -106,8 +116,8 @@ function Home() {
             <div className="home-header-contain">
                 <div className="header-list">  
              
-                     <AccountCircleIcon className='header-icons'/> 
-                     <SettingsIcon className='header-icons'/> 
+                     {/* <AccountCircleIcon className='header-icons'/> 
+                     <SettingsIcon className='header-icons'/>  */}
                      <MenuIcon className='header-icons mobile-menu' onClick={hideShow}/> 
                 </div>
             </div>

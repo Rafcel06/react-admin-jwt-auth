@@ -16,7 +16,11 @@ const useFetch = (url) => {
   
     
    const getData = async (url) => {
+
+      if(!url) return;
+
          try {  
+
               const  response = await axiosInstance.get(url)
               return response
          }
@@ -26,9 +30,13 @@ const useFetch = (url) => {
   }
 
 
+  
+
+
    
     useEffect(() => {
-          
+            
+
         getData(url).then((response) => {
           setData(response)
         })
@@ -37,6 +45,18 @@ const useFetch = (url) => {
         })
 
   },[])
+
+
+    const getDataNoAuth = async (url) => {
+         try {  
+              const  response = await axios.get(url)
+              return response
+         }
+         catch(err) {
+               setError(err)
+         }  
+  }
+
 
 
     const postData =  async (url,data) => {
@@ -99,7 +119,7 @@ const useFetch = (url) => {
 
 
 
-  return  { fetchData, errorState, fetchState, setFetchState, getData, postData, postDataNoAuth, updateData, deleteData }
+  return  { fetchData, errorState, fetchState, setFetchState, getData, getDataNoAuth, postData, postDataNoAuth, updateData, deleteData }
 }
 
 export default useFetch

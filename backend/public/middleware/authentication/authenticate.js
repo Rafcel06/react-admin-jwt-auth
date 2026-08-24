@@ -19,7 +19,7 @@ const fs = require('fs')
         const timestamp = Date.now();
         cb(null, `${timestamp} -- ${file.originalname}`);
     }
-});
+}); 
 
 
  const upload = multer({ storage });
@@ -38,11 +38,11 @@ router.post('/login', async (req,res) => {
 
 
 
-        let sql = `SELECT * FROM users WHERE email = ?`
-        let result = await db.executeQuery(sql,[email])
+        let sql = `SELECT * FROM users WHERE email = ? OR username = ?`
+        let result = await db.executeQuery(sql,[email,email])
        
         if(!result[0]) {
-             res.status(401).json({message:'No account associate on this email'})
+             res.status(401).json({message:'No account associate on this username'})
              return
         }
 
@@ -81,11 +81,11 @@ router.post('/login', async (req,res) => {
 // authentication CRUD
 
 
-router.post('/admin/register',  upload.single('image'),async (req,res, next) => {
+router.post('/admin/register', isAuthenticated, upload.single('image'),async (req,res, next) => {
 
-        // let { email, password, first_name, last_name, middle_name, phone } = decode(req.body.parsed)
+        // let { email, password, first_name, last_name, phone } = decode(req.body.parsed)
 
-    let { email, password, isAdmin, first_name, last_name, middle_name, phone,user_uuid } = req.body
+    let { email, password, account_type, country, username, first_name, last_name, phone} = req.body
 
            image = ''
 
@@ -106,11 +106,11 @@ router.post('/admin/register',  upload.single('image'),async (req,res, next) => 
        }
 
     
-            const hashed =  await bcryptjs.hash(password, 10)
-            let insertSql = `INSERT INTO users (email, password,isAdmin, first_name,last_name, middle_name, phone,image, user_uuid) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`
-            let insertResult =  await db.insertQuery(insertSql,[email, hashed,isAdmin,first_name, last_name, middle_name, phone, image,user_uuid])
+            // const hashed =  await bcryptjs.hash(password, 10)
+            let insertSql = `INSERT INTO users (email,account_type, country,username, first_name,last_name,  phone, image) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
+            let insertResult =  await db.insertQuery(insertSql,[email,  account_type, country, username,first_name, last_name,  phone, image])
 
-            res.status(200).json({message: 'Account succesfully created', data:{id: insertResult.id,email, first_name, image, user_uuid}})
+            res.status(200).json({message: 'Account succesfully created', data:{id: insertResult.id,email, first_name, image }})
 
     }
     catch(err) {
@@ -127,7 +127,7 @@ router.put('/update-profile/:id', isAuthenticated,  upload.single('image') , asy
 
     
     let id = req.params.id
-    let {email, password, first_name, last_name, middle_name, phone} = req.body
+    let {email, first_name, last_name, phone, account_type, country, username} = req.body
 
     let sql = `UPDATE users SET`;
     let values = []
@@ -163,21 +163,37 @@ router.put('/update-profile/:id', isAuthenticated,  upload.single('image') , asy
          }
 
 
-        
-
-
 
         if(email) {
               sql += ` email = ?,`
               values.push(email)
         }
 
-        if(password) {
 
-              let hashed =  await bcryptjs.hash(password,10)
-              sql += ` password = ?,`
-              values.push(hashed)
+
+        if(account_type) {
+              sql += ` account_type = ?,`
+              values.push(account_type)
         }
+
+
+        if(country) {
+              sql += ` country = ?,`
+              values.push(country)
+        }
+
+
+        if(username) {
+              sql += ` username = ?,`
+              values.push(username)
+        }
+
+        // if(password) {
+
+        //       let hashed =  await bcryptjs.hash(password,10)
+        //       sql += ` password = ?,`
+        //       values.push(hashed)
+        // }
 
         if(first_name) {
               sql += ` first_name = ?,`
@@ -188,12 +204,7 @@ router.put('/update-profile/:id', isAuthenticated,  upload.single('image') , asy
               sql += ` last_name = ?,`
               values.push(last_name)
         }
-        
-
-        if(middle_name) {
-              sql += ` middle_name = ?,`
-              values.push(middle_name)
-        }
+    
 
 
         if(req.file) {
@@ -272,11 +283,28 @@ router.delete('/delete-profile/:id', isAuthenticated,async (req,res) => {
 
 
 
-router.get('/users', isAuthenticated, async (req, res) => {
+router.get('/users',  isAuthenticated, async (req, res) => {
     
     try {
 
-        let sql =  `SELECT  id,email, first_name,last_name, middle_name, phone, isAdmin, image  FROM users;`
+        let sql =  `SELECT id, country, username, email, first_name, last_name, phone, account_type, image   FROM users;`
+        let result = await db.executeQuery(sql)
+        
+
+        res.status(200).json({data:result})
+    }
+    catch(err) {
+        res.status(500).json({message:'Internal server error'})
+    }
+})
+
+
+
+router.get('/users',  isAuthenticated, async (req, res) => {
+    
+    try {
+
+        let sql =  `SELECT id, country, username, email, first_name, last_name, phone, account_type, image   FROM users;`
         let result = await db.executeQuery(sql)
         
 
@@ -294,12 +322,13 @@ router.get('/users/:id', isAuthenticated, async (req, res) => {
     const id = req.params.id
     try {
 
-        let sql =  `SELECT  id,email, first_name,last_name, middle_name, phone, isAdmin, image FROM users WHERE id = ?;`
+        let sql =  `SELECT  id, country, username, email, first_name,last_name, phone, account_type, image FROM users WHERE id = ?;`
         let result = await db.executeQuery(sql,[id])
 
         res.status(200).json({data:result})
     }
     catch(err) {
+        console.log(err)
         res.status(500).json({message:'Internal server error'})
     }
 })
@@ -315,7 +344,7 @@ router.get('/users/:limit/:offset', isAuthenticated, async (req, res) => {
     
     try {
 
-        let sql =  `SELECT  id,email, first_name,last_name, middle_name, phone, isAdmin, image  FROM users WHERE isAdmin = 1 LIMIT ${limit} OFFSET ${offset};`
+        let sql =  `SELECT id, country, username, email, first_name,last_name, phone, account_type, image  FROM users  LIMIT ${limit} OFFSET ${offset};`
         let result = await db.executeQuery(sql,[limit,offset])
         
 
@@ -328,12 +357,18 @@ router.get('/users/:limit/:offset', isAuthenticated, async (req, res) => {
 
 
 
-router.get('/client', isAuthenticated, async (req, res) => {
+router.get('/client',  async (req, res) => {
+
+    const name = req.query.name
+
+      if(!name) {
+         return 
+       } 
     
     try {
 
-        let sql =  `SELECT  id,email, first_name,last_name, middle_name, phone, isAdmin  FROM users WHERE isAdmin = 0`
-        let result = await db.executeQuery(sql)
+        let sql =  `SELECT  id, country, username, email, first_name,last_name, phone, account_type, image FROM users WHERE username = ?`
+        let result = await db.executeQuery(sql,[name])
         
 
         res.status(200).json({data:result})

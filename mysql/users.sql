@@ -28,16 +28,16 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `nm_message` int(11) DEFAULT 0,
-  `user_uuid` varchar(255) DEFAULT NULL,
-  `isAdmin` tinyint(1) DEFAULT NULL,
+  -- `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   id BINARY(16) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID(), 1)),
+  `account_type` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
-  `middle_name` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -45,11 +45,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `nm_message`, `user_uuid`, `isAdmin`, `email`, `image`, `password`, `first_name`, `last_name`, `middle_name`, `phone`) VALUES
-(58, 0, 'admin-auth-33##', 1, 'admin@gmail.com', '', '$2b$10$zHpCqWGESPVeM5rEGhSL9OERV.qy2actk8kNNLP3XWbf8lSB6B3E2', 'Super', 'Admin', NULL, '123'),
-(59, 0, 'admin-auth-33##', 1, 'rafcel@gmail.com', '', '$2b$10$XXSSSm4rFKZud8.Hss6yv.mouL1O4Io8iVQBYoQrm1jnqcEfXk8ZS', 'Rafcel', 'Teberio', NULL, '123'),
-(125, 0, '2fd65606-fc22-4d00-b8c2-045d53c76be1', 0, 'raf@gmail.com', 'http://localhost:4000/1768397384952 -- Rafcel.png', '$2b$10$SgVwD/Yb/VxQOI6WrXC5heDYuwcqHWYgrpt91yo3iTLzztpP0qB42', 'Rafcel', NULL, NULL, NULL),
-(126, 0, 'e42523a8-154e-4039-9604-354746bef60e', 0, 'safari@gmail.com', 'http://localhost:4000/1768480500951 -- safari.png', '$2b$10$FnZw6azkHHxCrMOG4zdIHOnK/ZQkbQ3BwjkauOF8CSsF1ShfUcHU2', 'safari', NULL, NULL, NULL);
+INSERT INTO `users` (`country`,  `account_type`, `username`, `email`, `image`, `password`, `first_name`, `last_name`,  `phone`) VALUES
+('Philippines', 'administrator', 'admin', 'admin@gmail.com', '', '$2b$10$zHpCqWGESPVeM5rEGhSL9OERV.qy2actk8kNNLP3XWbf8lSB6B3E2', 'Super', 'Admin', '123');
 
 --
 -- Indexes for dumped tables
@@ -61,6 +58,7 @@ INSERT INTO `users` (`id`, `nm_message`, `user_uuid`, `isAdmin`, `email`, `image
 ALTER TABLE `users`
   ADD UNIQUE KEY `id` (`id`),
   ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -69,9 +67,7 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
-COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
