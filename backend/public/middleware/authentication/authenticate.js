@@ -38,7 +38,7 @@ router.post('/login', async (req,res) => {
 
 
 
-        let sql = `SELECT * FROM users WHERE email = ? OR username = ?`
+        let sql = `SELECT * FROM employee WHERE email = ? OR username = ?`
         let result = await db.executeQuery(sql,[email,email])
        
         if(!result[0]) {
@@ -96,7 +96,7 @@ router.post('/admin/register', isAuthenticated, upload.single('image'),async (re
     
     try { 
     
-       let sql =  `SELECT email from users WHERE email = ?`
+       let sql =  `SELECT email from employee WHERE email = ?`
        let result = await db.executeQuery(sql,[email])
  
 
@@ -107,7 +107,7 @@ router.post('/admin/register', isAuthenticated, upload.single('image'),async (re
 
     
             // const hashed =  await bcryptjs.hash(password, 10)
-            let insertSql = `INSERT INTO users (email,account_type, country,username, first_name,last_name,  phone, image) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
+            let insertSql = `INSERT INTO employee (email,account_type, country,username, first_name,last_name,  phone, image) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
             let insertResult =  await db.insertQuery(insertSql,[email,  account_type, country, username,first_name, last_name,  phone, image])
 
             res.status(200).json({message: 'Account succesfully created', data:{id: insertResult.id,email, first_name, image }})
@@ -129,7 +129,7 @@ router.put('/update-profile/:id', isAuthenticated,  upload.single('image') , asy
     let id = req.params.id
     let {email, first_name, last_name, phone, account_type, country, username} = req.body
 
-    let sql = `UPDATE users SET`;
+    let sql = `UPDATE employee SET`;
     let values = []
 
 
@@ -137,7 +137,7 @@ router.put('/update-profile/:id', isAuthenticated,  upload.single('image') , asy
 
     try {
 
-         let sqlCheck = `SELECT image FROM users WHERE id = ?`
+         let sqlCheck = `SELECT image FROM employee WHERE id = ?`
          let checkImg = await db.executeQuery(sqlCheck,[id])
 
 
@@ -249,7 +249,7 @@ router.delete('/delete-profile/:id', isAuthenticated,async (req,res) => {
      try {
 
 
-         let sqlCheck = `SELECT image FROM users WHERE id = ?`
+         let sqlCheck = `SELECT image FROM employee WHERE id = ?`
          let checkImg = await db.executeQuery(sqlCheck,[id])
          let splitImg = checkImg[0] ?  checkImg[0].image.split('/') : ''
 
@@ -267,7 +267,7 @@ router.delete('/delete-profile/:id', isAuthenticated,async (req,res) => {
 
 
 
-       let sql = `DELETE FROM users WHERE id = ?`
+       let sql = `DELETE FROM employee WHERE id = ?`
        let result =  await db.executeQuery(sql,[id]);
 
 
@@ -284,7 +284,7 @@ router.get('/users', isAuthenticated, async (req, res) => {
     
     try {
 
-        let sql =  `SELECT  id, country, username, email, first_name, last_name, phone, account_type, image   FROM users;`
+        let sql =  `SELECT  id, country, username, email, first_name, last_name, phone, account_type, image   FROM employee;`
         let result = await db.executeQuery(sql)
         
 
@@ -305,7 +305,7 @@ router.get('/users/:id', isAuthenticated, async (req, res) => {
     const id = req.params.id
     try {
 
-        let sql =  `SELECT  id, country, username, email, first_name,last_name, phone, account_type, image FROM users WHERE id = ?;`
+        let sql =  `SELECT  id, country, username, email, first_name,last_name, phone, account_type, image FROM employee WHERE id = ?;`
         let result = await db.executeQuery(sql,[id])
 
         res.status(200).json({data:result})
@@ -327,7 +327,7 @@ router.get('/users/:limit/:offset', isAuthenticated, async (req, res) => {
     
     try {
 
-        let sql =  `SELECT id, country, username, email, first_name,last_name, phone, account_type, image  FROM users  LIMIT ${limit} OFFSET ${offset};`
+        let sql =  `SELECT id, country, username, email, first_name,last_name, phone, account_type, image  FROM employee  LIMIT ${limit} OFFSET ${offset};`
         let result = await db.executeQuery(sql,[limit,offset])
         
 
@@ -350,7 +350,7 @@ router.get('/client',  async (req, res) => {
     
     try {
 
-        let sql =  `SELECT  id, country, username, email, first_name,last_name, phone, account_type, image FROM users WHERE username = ?`
+        let sql =  `SELECT  id, country, username, email, first_name,last_name, phone, account_type, image FROM employee WHERE username = ?`
         let result = await db.executeQuery(sql,[name])
         
 

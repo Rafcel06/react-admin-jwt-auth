@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `employee` (
   `id` varchar(36) NOT NULL DEFAULT (UUID()), -- this method work in MariaDB
   `account_type` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`account_type`, `country`, `username`, `email`, `image`, `password`, `first_name`, `last_name`, `phone`, `created_at`, `updated_at`) VALUES
+INSERT INTO `employee` (`account_type`, `country`, `username`, `email`, `image`, `password`, `first_name`, `last_name`, `phone`, `created_at`, `updated_at`) VALUES
 ('Administrator', 'Philippines', 'admin', 'admin@gmail.com', 'http://localhost:4000/1787640105378 -- JS-profile.jpg', '$2y$10$sQD3GYiUB2d6hFsZeGKXxO5VVKQODnQKtphHQiYfuultJvfUIA.UO', 'Super', 'Admin', '123', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
 ('Administrator', 'Philippines', 'Angular 18', 'angular@gmail.com', 'http://localhost:4000/1787646933893 -- Angular.png', NULL, 'Angular', '18', '09928389223', '2026-08-25 08:33:50', '2026-08-25 08:35:33'),
 ('User', 'Philippines', 'Solid JS', 'Solid@gmai.com', 'http://localhost:4000/1787640337551 -- Solid.jpg', NULL, 'Solid', 'JS', '9928389439', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
@@ -67,7 +67,7 @@ COMMIT;
 --
 -- Indexes for table `users`
 --
-ALTER TABLE `users`
+ALTER TABLE `employee`
   ADD UNIQUE KEY `id` (`id`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `username` (`username`);

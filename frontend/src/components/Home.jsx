@@ -106,7 +106,7 @@ function Home() {
                <Link to={''} className="navigation-links" onClick={checkSession}><AutoAwesomeMosaicIcon className='navigation-icons'/> Dashboard</Link>
   
                {/* <Link to={'report'} className="navigation-links" onClick={checkSession}><BarChartIcon className='navigation-icons'/> Report</Link> */}
-                <Link to={'users'} className="navigation-links" onClick={checkSession}><GroupIcon className='navigation-icons'/> Users</Link>
+                <Link to={'employee'} className="navigation-links" onClick={checkSession}><GroupIcon className='navigation-icons'/> Employee</Link>
            </ul>
             <ul className='navigation-list-logout'>
                <Link  to={'/'} className="navigation-links" onClick={gotoLogin}><LogoutIcon className='navigation-icons'/> Logout</Link>
