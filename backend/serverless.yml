@@ -1,0 +1,19 @@
+org: rafcelteberiodigima
+app: app
+service : node-serverless-lamda
+
+provider : 
+   name : aws
+   runtime : nodejs22.x
+   region: us-east-1  
+  
+functions : 
+   app : 
+      handler : backend/main.handler
+      events:
+      - httpApi:
+          path: /
+          method: any
+      - httpApi:
+          path: /{proxy+}
+          method: any
