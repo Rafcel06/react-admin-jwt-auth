@@ -12,7 +12,7 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  color: #2589b0;
+  color: #202f44;
   box-shadow: 
     calc(1*var(--d))      calc(0*var(--d))     0 0,
     calc(0.707*var(--d))  calc(0.707*var(--d)) 0 1px,

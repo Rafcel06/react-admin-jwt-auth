@@ -383,7 +383,7 @@ const Analytics = () => {
                           <td>{mapped?.account_type}</td>
                           <td className="table-action"> 
                               <button type="button"className="action-btn" onClick={() => editUser(mapped)} ><EditSquareIcon/></button>
-                              <button type="button"className="action-btn" onClick={() => deleteUser(mapped)}><DeleteIcon/></button>
+                              <button type="button"className="action-btn red-btn " onClick={() => deleteUser(mapped)}><DeleteIcon/></button>
                          </td>
                 </tr>
  

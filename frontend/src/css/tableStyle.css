@@ -16,7 +16,7 @@ display: flex;
     gap: 0.5em;
 
     cursor: pointer;
-    background: #6499E9;
+    background: #202f44;
     border: none;
     color: #Fff;
     border-radius: 3px;
@@ -59,7 +59,7 @@ display: flex;
 }
 
 .table-header {
-  background-color:  #6499E9;
+  background-color:  #202f44;
   color: #Fff;
 }
 
@@ -114,7 +114,7 @@ display: flex;
   font-size: 20px !important;
   border: none;
   outline: none;
-  background: #6499E9;
+  background: #202f44;
   border: none;
   color: #Fff;
   border-radius: 3px;
@@ -122,6 +122,10 @@ display: flex;
   justify-content: center;
   align-items: center;
 
+}
+
+.red-btn {
+  background: #811212;
 }
 
 

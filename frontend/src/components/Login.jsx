@@ -41,6 +41,7 @@ const Login = () => {
   }
 
   useEffect(() => {
+     
     if(getSecureStorage(process.env.REACT_APP_STORAGE_KEY)) {
        navigate('/home')
     }

@@ -5,7 +5,7 @@ import "../css/customHooks.css";
 const useBackDrop = () => {
   const [backDropState, setBackDropState] = useState(false);
     const btnStyle = {
-    backgroundColor: backDropState ? '#6499e9ba' : ''
+    backgroundColor: backDropState ? '#3f4e64ba' : ''
   }
 
   const hideBackDrop = () => {

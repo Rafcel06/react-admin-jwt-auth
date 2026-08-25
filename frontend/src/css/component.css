@@ -29,7 +29,7 @@
  }
 
  .login-box:nth-of-type(1) {
-   background-color: #6499E9;
+   background-color: #202f44;
  }
 
  .login-box:nth-of-type(2) {
@@ -141,7 +141,7 @@
  }
 
  .forgot-password-box:nth-of-type(2) {
-   background-color: #6499E9;
+   background-color: #202f44;
  }
 
  .forgot-password-box:nth-of-type(1) {
@@ -198,7 +198,7 @@
  }
 
  .reset-password-box:nth-of-type(2) {
-   background-color: #6499E9;
+   background-color: #202f44;
  }
 
  .reset-password-box:nth-of-type(1) {
@@ -253,7 +253,7 @@
   align-items: center;
   flex-direction: column;
   justify-content: flex-start;
-  background: #6499E9;
+  background: #202f44;
   color: #fff !important;
 
 } 
@@ -496,7 +496,7 @@
   height: 130px;
 
   display: flex;
-  background: #6499E9;
+  background: #202f44;
   border-radius: 5px;
              box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
     -webkit-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
@@ -585,7 +585,7 @@
   height: 100px;
  
   display: flex;
-  background: #6499E9;
+  background: #202f44;
   border-radius: 5px;
 }
 
