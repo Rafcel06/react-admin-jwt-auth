@@ -64,7 +64,8 @@ DEPLOY backend SERVERLESS VIA AWS LAMDA
 
          - npm install
    
- STEP 2  : go to shell the run this 
+ STEP 2  : go to AWS IAM navigate to user then create user and add permission pick attach policies directly give the user you created an administrative permission get the 
+           AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY shell the run this 
 
          - npm install -g serverless
 

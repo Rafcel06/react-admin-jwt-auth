@@ -28,7 +28,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `users` (
-  -- `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `id` varchar(36) NOT NULL DEFAULT (UUID()), -- this method work in MariaDB
   `account_type` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
@@ -47,18 +46,18 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `account_type`, `country`, `username`, `email`, `image`, `password`, `first_name`, `last_name`, `phone`, `created_at`, `updated_at`) VALUES
-('b2da3737-a05f-11f1-b4f1-04d9f52008a4', 'Administrator', 'Philippines', 'admin', 'admin@gmail.com', 'http://localhost:4000/1787640105378 -- JS-profile.jpg', '$2b$10$zHpCqWGESPVeM5rEGhSL9OERV.qy2actk8kNNLP3XWbf8lSB6B3E2', 'Super', 'Admin', '123', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
-('b2da456b-a05f-11f1-b4f1-04d9f52008a4', 'Administrator', 'Philippines', 'Angular 18', 'angular@gmail.com', 'http://localhost:4000/1787646933893 -- Angular.png', NULL, 'Angular', '18', '09928389223', '2026-08-25 08:33:50', '2026-08-25 08:35:33'),
-('b2da45d8-a05f-11f1-b4f1-04d9f52008a4', 'User', 'Philippines', 'Solid JS', 'Solid@gmai.com', 'http://localhost:4000/1787640337551 -- Solid.jpg', NULL, 'Solid', 'JS', '9928389439', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
-('b2da4655-a05f-11f1-b4f1-04d9f52008a4', 'User', 'Philippines', 'Cai Mika', 'mika@gmail.com', 'http://localhost:4000/1787640629262 -- 9.jpg', NULL, 'Mika', 'Cai', '9928389329', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
-('b2da46a0-a05f-11f1-b4f1-04d9f52008a4', 'User', 'Philippines', 'Gian Mak', 'gian@gmail.com', 'http://localhost:4000/1787640792187 -- 5.jpg', NULL, 'Gian', 'Mak', '9928389329', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
-('b2da46c6-a05f-11f1-b4f1-04d9f52008a4', 'User', 'Philippines', 'Angelyn Cun', 'angelyn@gmail.com', 'http://localhost:4000/1787640929572 -- 6.jpg', NULL, 'Angelyn', 'Cun', '9928389221', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
-('b2da46ef-a05f-11f1-b4f1-04d9f52008a4', 'User', 'Philippines', 'Mike ross', 'mike@gmail.com', 'http://localhost:4000/1787640997290 -- 7.jpg', NULL, 'mike', 'ross', '09928389221', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
-('b2da4718-a05f-11f1-b4f1-04d9f52008a4', 'User', 'Philippines', 'David Kim', 'david@gmail.com', 'http://localhost:4000/1787641074057 -- 8.jpg', NULL, 'David', 'Kim', '9928389770', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
-('b2da4767-a05f-11f1-b4f1-04d9f52008a4', 'User', 'Philippines', 'Sai mon', 'sai@gmail.com', 'http://localhost:4000/1787641203068 -- 2.jpg', NULL, 'Sai', 'Mon', '9928389879', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
-('8a1946a4-a062-11f1-b4f1-04d9f52008a4', 'User', 'Philippines', 'Vue JS ', 'vue@gmail.com', 'http://localhost:4000/1787648181715 -- Vue.png', NULL, 'Vue', '17', '9928383329', '2026-08-25 08:54:10', '2026-08-25 08:56:21'),
-('0246ae44-a063-11f1-b4f1-04d9f52008a4', 'User', 'Philippines', 'Al Celo', 'alcelo@gmail.com', 'http://localhost:4000/1787648252438 -- images.jpg', NULL, 'Al', 'Celo', '9928389661', '2026-08-25 08:57:32', '2026-08-25 08:57:32');
+INSERT INTO `users` (`account_type`, `country`, `username`, `email`, `image`, `password`, `first_name`, `last_name`, `phone`, `created_at`, `updated_at`) VALUES
+('Administrator', 'Philippines', 'admin', 'admin@gmail.com', 'http://localhost:4000/1787640105378 -- JS-profile.jpg', '$2y$10$sQD3GYiUB2d6hFsZeGKXxO5VVKQODnQKtphHQiYfuultJvfUIA.UO', 'Super', 'Admin', '123', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
+('Administrator', 'Philippines', 'Angular 18', 'angular@gmail.com', 'http://localhost:4000/1787646933893 -- Angular.png', NULL, 'Angular', '18', '09928389223', '2026-08-25 08:33:50', '2026-08-25 08:35:33'),
+('User', 'Philippines', 'Solid JS', 'Solid@gmai.com', 'http://localhost:4000/1787640337551 -- Solid.jpg', NULL, 'Solid', 'JS', '9928389439', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
+('User', 'Philippines', 'Cai Mika', 'mika@gmail.com', 'http://localhost:4000/1787640629262 -- 9.jpg', NULL, 'Mika', 'Cai', '9928389329', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
+('User', 'Philippines', 'Gian Mak', 'gian@gmail.com', 'http://localhost:4000/1787640792187 -- 5.jpg', NULL, 'Gian', 'Mak', '9928389329', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
+('User', 'Philippines', 'Angelyn Cun', 'angelyn@gmail.com', 'http://localhost:4000/1787640929572 -- 6.jpg', NULL, 'Angelyn', 'Cun', '9928389221', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
+('User', 'Philippines', 'Mike ross', 'mike@gmail.com', 'http://localhost:4000/1787640997290 -- 7.jpg', NULL, 'mike', 'ross', '09928389221', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
+('User', 'Philippines', 'David Kim', 'david@gmail.com', 'http://localhost:4000/1787641074057 -- 8.jpg', NULL, 'David', 'Kim', '9928389770', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
+('User', 'Philippines', 'Sai mon', 'sai@gmail.com', 'http://localhost:4000/1787641203068 -- 2.jpg', NULL, 'Sai', 'Mon', '9928389879', '2026-08-25 08:33:50', '2026-08-25 08:33:50'),
+('User', 'Philippines', 'Vue JS ', 'vue@gmail.com', 'http://localhost:4000/1787648181715 -- Vue.png', NULL, 'Vue', '17', '9928383329', '2026-08-25 08:54:10', '2026-08-25 08:56:21'),
+('User', 'Philippines', 'Al Celo', 'alcelo@gmail.com', 'http://localhost:4000/1787648252438 -- images.jpg', NULL, 'Al', 'Celo', '9928389661', '2026-08-25 08:57:32', '2026-08-25 08:57:32');
 COMMIT;
 
 --

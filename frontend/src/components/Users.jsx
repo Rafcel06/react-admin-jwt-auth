@@ -270,8 +270,7 @@ const Analytics = () => {
 
   useEffect(() => {
 
-    
-
+  
     if(searchName) {
        timeout = setTimeout(() => {
         getData('client?' + 'name=' + searchName)
@@ -287,13 +286,14 @@ const Analytics = () => {
       clearTimeout(timeout)
     }
 
-  },[searchName])
+  },[searchName,fetchState])
 
  
   useEffect(() => {
         getData(`users/${id}`)
        .then((response) => {
         setUserData(response.data.data[0])
+        
        })
        .catch((err) => console.log(err))
      return () => {
@@ -303,6 +303,11 @@ const Analytics = () => {
 
 
   useEffect(() => {
+
+      if(searchName) {
+           return
+      }
+
        getData(`users/${limit}/${offset}`)
        .then((response) => {
         setTableData(response.data)

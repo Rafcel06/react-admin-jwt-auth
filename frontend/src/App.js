@@ -2,6 +2,7 @@ import './App.css';
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AuthGuard from './gaurd/AuthGuard.jsx';
+import UserContext from './context/UserContext.jsx';
 
 
 
@@ -31,8 +32,9 @@ const UsersPage = lazy(() => import('./components/Users.jsx'))
 
 function App() {
   return (
-    
+           <UserContext> 
        <Routes>
+   
             <Route path='/' element={
               <Suspense fallback={<LoaderPage/>}>
                   <LoginPage />
@@ -87,7 +89,9 @@ function App() {
                <Suspense fallback={<LoaderPage/>}>
                    <PageNotFoundPage/>
              </Suspense>}/>
+            
        </Routes>
+        </UserContext>
   );
 };
 
