@@ -20,14 +20,20 @@ axiosInstance.interceptors.request.use(
 );
 
   axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+      return response
+  },
   (error) => { 
+
+    if(error.status === 401) {
+        secureLocalStorage.setItem("ExpiredIn" , "true")
+    }
      
 
     if(error.data.message === 'Email is not available') {
        return
     }
-
+ 
      secureLocalStorage.setItem("ExpiredIn" , "true")
     if (error.response.status === 401) {
       console.error('Unauthorized access, please log in');

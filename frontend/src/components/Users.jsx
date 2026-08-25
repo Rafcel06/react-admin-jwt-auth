@@ -146,7 +146,7 @@ const Analytics = () => {
           formData.append('country', data.country)
           formData.append('email', data.email)
           formData.append('phone', data.phone)
-          formData.append('image', (data.image ? data.image[0] : ""))
+          formData.append('image', (data.image ? data.image[0] : null))
           // formData.append('password', data.password)
       
 
@@ -281,10 +281,7 @@ const Analytics = () => {
       .catch((err) => console.log(err))
    }, 500); 
     }
-
-
-
-   
+ 
 
     return () => {
       clearTimeout(timeout)

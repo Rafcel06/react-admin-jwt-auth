@@ -141,12 +141,9 @@ router.put('/update-profile/:id', isAuthenticated,  upload.single('image') , asy
          let checkImg = await db.executeQuery(sqlCheck,[id])
 
 
-
-        //  if(checkImg[0].image != null) {
-
         if(checkImg[0].image !== "") {
   
-            let splitImg = req.file ?  checkImg[0].image.split('/') : ''
+            let splitImg = req.file ? checkImg[0].image.split('/') : ''
              
             if(splitImg) {
                if(fs.existsSync(`./public/file/${splitImg[splitImg.length - 1]}`)) {
@@ -283,11 +280,11 @@ router.delete('/delete-profile/:id', isAuthenticated,async (req,res) => {
 
 
 
-router.get('/users',  isAuthenticated, async (req, res) => {
+router.get('/users', isAuthenticated, async (req, res) => {
     
     try {
 
-        let sql =  `SELECT id, country, username, email, first_name, last_name, phone, account_type, image   FROM users;`
+        let sql =  `SELECT  id, country, username, email, first_name, last_name, phone, account_type, image   FROM users;`
         let result = await db.executeQuery(sql)
         
 
@@ -300,20 +297,6 @@ router.get('/users',  isAuthenticated, async (req, res) => {
 
 
 
-router.get('/users',  isAuthenticated, async (req, res) => {
-    
-    try {
-
-        let sql =  `SELECT id, country, username, email, first_name, last_name, phone, account_type, image   FROM users;`
-        let result = await db.executeQuery(sql)
-        
-
-        res.status(200).json({data:result})
-    }
-    catch(err) {
-        res.status(500).json({message:'Internal server error'})
-    }
-})
 
 
 router.get('/users/:id', isAuthenticated, async (req, res) => {

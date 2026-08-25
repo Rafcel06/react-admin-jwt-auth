@@ -27,7 +27,7 @@ const ResetPasswordPage = lazy(() => import('./components/ResetPassword.jsx'))
 
 const DashboardPage = lazy(() => import('./components/Dashboard.jsx'))
 const UsersPage = lazy(() => import('./components/Users.jsx'))
-// const ReportPage = lazy(() => import('./components/Report.jsx'))
+
 
 function App() {
   return (
@@ -62,10 +62,7 @@ function App() {
                         <UsersPage/>
                    </Suspense>}/>
 
-            {/* <Route path='Report' element={
-                   <Suspense fallback={<AuthLoaderPage/>}>
-                    <ReportPage/>
-                   </Suspense>}/> */}
+      
           
 
 
