@@ -24,7 +24,7 @@ STEP 2 : Navigate to you backend then run the same command
        this install all the dependency that your backend need 
 
 STEP 3 : Open your XAMMP and Navigate to mysql folder and copy the query to create Database name 
-         reactAdmin and Table name users
+         reactAdmin and Table name employee
 
 
 STEP 4 : Navigate to frontend folder and run 
@@ -42,7 +42,7 @@ STEP 5 : go to login and use this credentials to login
        user : admin
        pass : $$_Token_auth_2026
 
-FINAL STEP :  go to users TAB and Perform the CRUD of users
+FINAL STEP :  go to Employee TAB and Perform the CRUD of employee
 
 
 
@@ -64,8 +64,10 @@ DEPLOY backend SERVERLESS VIA AWS LAMDA
 
          - npm install
    
- STEP 2  : go to AWS IAM navigate to user then create user and add permission pick attach policies directly give  the user you created an administrative permission get the 
-           AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY shell the run this 
+ STEP 2  : go to AWS IAM navigate to user then create user and add permission pick attach policies directly give  the user you created an administrative      permission get the 
+           AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY use shell the run this 
+
+
 
          - npm install -g serverless
 
