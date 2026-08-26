@@ -61,7 +61,7 @@ function Home() {
 
    const checkSession = () => {
 
-      if(secureLocalStorage.getItem('ExpiredIn') === true) {
+      if(secureLocalStorage.getItem('ExpiredIn')) {
         showAlertElement()
       }
 

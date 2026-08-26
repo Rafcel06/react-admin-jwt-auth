@@ -61,7 +61,9 @@ function App() {
 
              <Route path='Employee' element={
                    <Suspense fallback={<AuthLoaderPage/>}>
+                     <AuthGuard>
                         <UsersPage/>
+                        </AuthGuard>
                    </Suspense>}/>
 
       
